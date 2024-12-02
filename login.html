@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section with Image -->
+        <div class="left-section">
+            <img src="doctor.jpeg" alt="Doctors" class="illustration">
+        </div>
+
+        <!-- Right Section with Login Form -->
+        <div class="right-section">
+            <div class="logo">
+                <h1>Login</h1>
+            </div>
+            <h2>Welcome Back Doctor!</h2>
+            <form class="login-form" action="process_login.php" method="post">
+                <div class="input-group">
+                    <label for="email">
+                        <img src="email.jpg" alt="Email Icon" width="20px">
+                    </label>
+                    <input type="email" id="email" name="email" placeholder="Your Email Address" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">
+                        <img src="password.jpeg" alt="Password Icon" width="20px">
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Your Password" required>
+                </div>
+                <div class="options">
+                    <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+                </div>                
+                <button type="submit" class="login-button">Login</button>
+            </form>
+            <footer>
+                <p>&copy; Health_Records 2024.</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+/* Center the Links Section */
+.links {
+    text-align: center; /* Center align the links */
+    margin-top: 30px; /* Add some spacing above */
+}
+
+
+.links .button {
+    display: inline-block;
+    background-color: #3498db; 
+    color: white; 
+    padding: 12px 25px; 
+    margin: 10px; 
+    text-decoration: none; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    text-align: center;
+   
+}
+
+.links .button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Body Background Styling */
+body {
+    background: rgba(0, 0, 0, 0.1)50% ;
+    background-size: cover;
+    background-repeat:no-repeat ;
+    background-position: center;
+}
+
+/* Header Centering */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #2c3e50;
+    font-size: 2em;
+}
+
+/* Button Link Background */
+.links .button:focus {
+    outline: none; /* Remove default focus outline */
+    background-color: #1abc9c; /* Green background on focus */
+}

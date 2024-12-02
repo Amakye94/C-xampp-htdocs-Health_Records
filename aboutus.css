@@ -1,0 +1,105 @@
+
+body.about-us-page {
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.6) 50%), url('HEALTH.jpg');
+    background-size: cover; /
+    background-position: center; 
+    background-attachment: fixed; 
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    font-size: 2rem;
+}
+
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+
+.responsive-video {
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid white; 
+    border-radius: 8px; 
+}
+
+p {
+    text-align: center;
+    font-size: 1rem;
+    margin: 10px 20px;
+}
+
+
+ul {
+    margin: 20px auto;
+    padding: 0;
+    max-width: 600px;
+    list-style-type: square;
+}
+
+ul li {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+
+a {
+    display: inline-block;
+    text-align: center;
+    margin: 20px auto;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.footer-container {
+    text-align: center;
+    background-color: #343a40; 
+    color: #ffffff; 
+    padding: 15px 0;
+}
+
+.footer-container .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-date-container {
+    font-size: 0.9rem;
+    white-space: nowrap; /* Prevent line breaks */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    ul li {
+        font-size: 0.9rem;
+    }
+
+    a {
+        font-size: 0.9rem;
+    }
+}

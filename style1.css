@@ -1,0 +1,100 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eaf3fb; /* Light blue background */
+    color: #333; /* Dark text for readability */
+}
+
+/* Container for the form */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px 30px;
+    background-color: #ffffff; /* White background for the form */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Header styling */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #3366cc; /* Blue header text */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Form labels */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+}
+
+/* Inputs, textareas, and select dropdowns */
+input[type="text"], input[type="number"], input[type="date"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Textareas */
+textarea {
+    height: 80px;
+    resize: vertical; /* Allow resizing only vertically */
+}
+
+/* Gender select dropdown */
+select {
+    background-color: #f9f9f9;
+}
+
+/* Button styling */
+button {
+    background-color: #3366cc; /* Blue button background */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #1a4a8b; /* Darker blue on hover */
+}
+
+/* Add spacing and improve layout for form-group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Placeholder text styling */
+input::placeholder, textarea::placeholder {
+    font-style: italic;
+    color: #888;
+}
+
+/* Responsive design for smaller devices */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
