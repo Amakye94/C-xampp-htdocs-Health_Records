@@ -1,0 +1,140 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo Image */
+.logo-container img {
+    margin-right: 10px;
+}
+
+/* Logo Text */
+.logo-text {
+    font-size: 1.8rem; /* Makes "Health Records" larger */
+    font-weight: bold;
+    color: #4a148c; /* Adjust color to match your theme */
+    margin: 0;
+}
+
+/* Navigation Links */
+.nav-items a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.nav-items a:hover {
+    color: #4a148c; /* Add hover effect for links */
+}
+.navbar {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.navbar ul {
+    display: inline-block;
+}
+
+.navbar li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: black;
+}
+header {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 {
+    font-size: 1.5em;
+    margin: 0;
+}
+header nav a {
+    color: black;
+    margin-left: 15px;
+    text-decoration: none;
+}
+header nav a:hover {
+    text-decoration: underline;
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.container h2 {
+    text-align: center;
+    color: #002b5c;
+    margin-bottom: 20px;
+}
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.search-bar input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.search-bar button:hover {
+    background-color: #004b99;
+}
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.buttons a {
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+    color: white;
+    background-color: #28a745;
+    text-decoration: none;
+    border-radius: 5px;
+    width: 150px;
+}
+.buttons a:hover {
+    background-color: #218838;
+}
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+}

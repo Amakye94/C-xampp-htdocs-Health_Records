@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert query with debugging
-    $stmt = $conn->prepare("INSERT INTO doctors_registration (title, full_name, staff_id, email, gender, telephone, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO doctors_registration(title, full_name, staff_id, email, gender, telephone, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }

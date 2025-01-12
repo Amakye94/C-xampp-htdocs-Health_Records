@@ -1,0 +1,10 @@
+Complete Blood Count (CBC) Report
+Patient Name: John Doe
+Date: 2024-11-13
+
+WBC Count: 6.5 x10^9/L
+RBC Count: 5.2 x10^12/L
+Hemoglobin: 13.5 g/dL
+Platelets: 250 x10^9/L
+
+Conclusion: Within normal range.

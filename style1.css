@@ -5,12 +5,15 @@ body {
     padding: 0;
     background-color: #eaf3fb; /* Light blue background */
     color: #333; /* Dark text for readability */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
 }
 
 /* Container for the form */
 .container {
-    max-width: 600px;
-    margin: 50px auto;
+    width: 70%; /* Adjust container to cover 70% of the page width */
     padding: 20px 30px;
     background-color: #ffffff; /* White background for the form */
     border-radius: 10px;
@@ -26,20 +29,32 @@ h1 {
     font-weight: bold;
 }
 
+h2 {
+    text-align: center;
+}
+
+/* Form group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 /* Form labels */
 label {
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
-    display: block;
+    text-align: center;
+    width: 100%; /* Allow label text to span the width */
     color: #555;
 }
 
 /* Inputs, textareas, and select dropdowns */
 input[type="text"], input[type="number"], input[type="date"], textarea, select {
-    width: 100%;
+    width: 70%; /* Adjust the width to 70% */
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
@@ -52,11 +67,6 @@ textarea {
     resize: vertical; /* Allow resizing only vertically */
 }
 
-/* Gender select dropdown */
-select {
-    background-color: #f9f9f9;
-}
-
 /* Button styling */
 button {
     background-color: #3366cc; /* Blue button background */
@@ -67,18 +77,14 @@ button {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    width: 100%;
+    width: 70%; /* Button width matches the inputs */
     transition: background-color 0.3s;
+    margin-top: 15px;
 }
 
 /* Button hover effect */
 button:hover {
     background-color: #1a4a8b; /* Darker blue on hover */
-}
-
-/* Add spacing and improve layout for form-group */
-.form-group {
-    margin-bottom: 20px;
 }
 
 /* Placeholder text styling */
@@ -90,11 +96,10 @@ input::placeholder, textarea::placeholder {
 /* Responsive design for smaller devices */
 @media (max-width: 768px) {
     .container {
-        margin: 20px;
-        padding: 15px;
+        width: 90%; /* Adjust container width for smaller screens */
     }
 
-    h1 {
-        font-size: 20px;
+    input[type="text"], input[type="number"], input[type="date"], textarea, select, button {
+        width: 90%; /* Inputs and buttons adjust for smaller screens */
     }
 }

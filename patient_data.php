@@ -1,3 +1,15 @@
+<?php
+session_start();
+echo "Session Data: ";
+print_r($_SESSION); // Debug session data
+if (!isset($_SESSION['doctor_id'])) {
+    echo "Session doctor_id not found. Redirecting...";
+    header("Location: login.html");
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +22,9 @@
     <div class="container">
         <h1>Patient Details Overview</h1>
         <?php
-        // Ensure the request method is POST
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Retrieve and sanitize form data
+            
             $patient_name = htmlspecialchars($_POST['patient_name'] ?? 'N/A');
             $age = htmlspecialchars($_POST['age'] ?? 'N/A');
             $gender = htmlspecialchars($_POST['gender'] ?? 'N/A');
@@ -25,7 +37,7 @@
         }
         ?>
 
-        <!-- Display submitted data -->
+       
         <p><strong>Name:</strong> <?php echo $patient_name; ?></p>
         <p><strong>Age:</strong> <?php echo $age; ?></p>
         <p><strong>Gender:</strong> <?php echo $gender; ?></p>
@@ -33,9 +45,9 @@
         <p><strong>Immunization:</strong> <?php echo $immunization; ?></p>
         <p><strong>Allergies:</strong> <?php echo $allergies; ?></p>
 
-        <!-- Form to proceed to diagnosis -->
+    
         <form action="diagnosis.php" method="post">
-            <!-- Pass patient data as hidden inputs -->
+         
             <input type="hidden" name="patient_name" value="<?php echo $patient_name; ?>">
             <input type="hidden" name="age" value="<?php echo $age; ?>">
             <input type="hidden" name="gender" value="<?php echo $gender; ?>">

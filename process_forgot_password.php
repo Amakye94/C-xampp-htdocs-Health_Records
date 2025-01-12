@@ -1,47 +1,85 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "health_records_2024");
+session_start();
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = htmlspecialchars($_POST['email']);
+// Include PHPMailer classes
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+require 'PHPMailer/Exception.php';
+require 'vendor/autoload.php';
 
-    if (empty($email)) {
-        die("Email is required.");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Database connection
+    $host = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "health_records_2024";
+
+    $conn = new mysqli($host, $username, $password, $database);
+    if ($conn->connect_error) {
+        die("Database connection failed: " . $conn->connect_error);
     }
+
+    $email = $conn->real_escape_string($_POST['email']);
 
     // Check if the email exists
     $stmt = $conn->prepare("SELECT id FROM doctors_registration WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->store_result();
+    $result = $stmt->get_result();
 
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($doctor_id);
-        $stmt->fetch();
+    if ($result->num_rows > 0) {
+        // Generate a secure token
+        $token = bin2hex(random_bytes(32));
 
-        // Generate a reset token
-        $reset_token = bin2hex(random_bytes(16));
-        $expiry_time = date("Y-m-d H:i:s", strtotime("+1 hour"));
+        // Save the token in the database
+        $stmt_update = $conn->prepare("UPDATE doctors_registration SET reset_token = ? WHERE email = ?");
+        $stmt_update->bind_param("ss", $token, $email);
+        $stmt_update->execute();
 
-        // Insert the reset token into the database
-        $insert_stmt = $conn->prepare("INSERT INTO password_resets (doctor_id, token, expires_at) VALUES (?, ?, ?)");
-        $insert_stmt->bind_param("iss", $doctor_id, $reset_token, $expiry_time);
-        $insert_stmt->execute();
+        // Create the reset link
+        $reset_link = "http://localhost/health_records/reset_password.php?token=" . $token;
 
-        // Send email with reset link
-        $reset_link = "http://localhost/health_records/reset_password.php?token=$reset_token";
-        mail($email, "Password Reset Request", "Click the link to reset your password: $reset_link");
+        // Initialize PHPMailer
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'ehrgroup1@gmail.com'; // Your email
+            $mail->Password = 'zcum qfsc jcqs qdtu';   // App password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-        echo "A password reset link has been sent to your email.";
+            $mail->setFrom('ehrgroup1@gmail.com', 'Health Records');
+            $mail->addAddress($email);
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Password Reset Request';
+            $mail->Body = "Click the link below to reset your password:<br><br>
+                           <a href='$reset_link'>$reset_link</a>";
+
+            // Send email
+            if ($mail->send()) {
+                $_SESSION['success_message'] = "Password reset email sent successfully.";
+            } else {
+                $_SESSION['error_message'] = "Failed to send reset email.";
+            }
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = "Failed to send reset email: " . $mail->ErrorInfo;
+        }
     } else {
-        echo "Email not found.";
+        $_SESSION['error_message'] = "Email not found.";
     }
 
-    $stmt->close();
-}
+    $conn->close();
 
-$conn->close();
+    // Redirect to the login page with success or error message
+    header("Location: login.html");
+    exit();
+}
 ?>
+
+

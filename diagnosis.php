@@ -1,72 +1,93 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = ""; // Default password for XAMPP is empty
+$database = "health_records_2024";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $patient_id = $_POST['patient_id'];
+    $diagnosis = htmlspecialchars($_POST['diagnosis']);
+    $treatment_plan = htmlspecialchars($_POST['treatment_plan']);
+    $billing = htmlspecialchars($_POST['billing']);
+
+    // Save diagnosis and treatment details
+    $stmt = $conn->prepare("INSERT INTO patient_records (patient_id, diagnosis, treatment_plan, billing) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("isss", $patient_id, $diagnosis, $treatment_plan, $billing);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect to the patient details page to view all data
+    header("Location: diagnosis.php?patient_id=$patient_id");
+    exit();
+}
+
+// Fetch patient details for display
+if (isset($_GET['patient_id'])) {
+    $patient_id = $_GET['patient_id'];
+    $stmt = $conn->prepare("SELECT * FROM patients WHERE id = ?");
+    $stmt->bind_param("i", $patient_id);
+    $stmt->execute();
+    $patient = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+}
+
+// Fetch patient files
+$radiology_images = $conn->query("SELECT * FROM radiology_images WHERE patient_id = $patient_id");
+$lab_results = $conn->query("SELECT * FROM lab_results WHERE patient_id = $patient_id");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagnosis & Treatment</title>
-    <link rel="stylesheet" href="style1.css">
+    <title>Patient Details</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Diagnosis & Treatment</h1>
-        <?php
-        // Ensure the request method is POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Retrieve and sanitize form data
-            $patient_name = htmlspecialchars($_POST['patient_name'] ?? 'N/A');
-            $age = htmlspecialchars($_POST['age'] ?? 'N/A');
-            $gender = htmlspecialchars($_POST['gender'] ?? 'N/A');
-            $date_of_birth = htmlspecialchars($_POST['date_of_birth'] ?? 'N/A');
-            $immunization = nl2br(htmlspecialchars($_POST['immunization'] ?? 'N/A'));
-            $allergies = nl2br(htmlspecialchars($_POST['allergies'] ?? 'N/A'));
-        } else {
-            echo "<p>Error: No data received. Please go back to the previous step and fill out the form.</p>";
-            exit;
-        }
-        ?>
+    <h1>Patient Details</h1>
 
-        <!-- Display patient details for confirmation -->
-        <h2>Patient Details</h2>
-        <p><strong>Name:</strong> <?php echo $patient_name; ?></p>
-        <p><strong>Age:</strong> <?php echo $age; ?></p>
-        <p><strong>Gender:</strong> <?php echo $gender; ?></p>
-        <p><strong>Date of Birth:</strong> <?php echo $date_of_birth; ?></p>
-        <p><strong>Immunization:</strong> <?php echo $immunization; ?></p>
-        <p><strong>Allergies:</strong> <?php echo $allergies; ?></p>
+    <?php if ($patient): ?>
+        <p><strong>Name:</strong> <?php echo htmlspecialchars($patient['patient_name']); ?></p>
+        <p><strong>Age:</strong> <?php echo htmlspecialchars($patient['age']); ?></p>
+        <p><strong>Gender:</strong> <?php echo htmlspecialchars($patient['gender']); ?></p>
+        <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($patient['date_of_birth']); ?></p>
+        <p><strong>Immunization:</strong> <?php echo htmlspecialchars($patient['immunization']); ?></p>
+        <p><strong>Allergies:</strong> <?php echo htmlspecialchars($patient['allergies']); ?></p>
+    <?php else: ?>
+        <p>Patient details not found.</p>
+    <?php endif; ?>
 
-        <!-- Diagnosis and treatment form -->
-        <form action="process_treatment.php" method="post" enctype="multipart/form-data">
-            <h2>Diagnosis</h2>
-            <div class="form-group">
-                <label for="diagnosis">Diagnosis:</label>
-                <textarea id="diagnosis" name="diagnosis" required></textarea>
-            </div>
+    <h2>Add New Details</h2>
+    <form action="diagnosis.php" method="post">
+        <input type="hidden" name="patient_id" value="<?php echo $patient_id; ?>">
+        <label for="diagnosis">Diagnosis:</label>
+        <textarea id="diagnosis" name="diagnosis" required></textarea>
+        <label for="treatment_plan">Treatment Plan:</label>
+        <textarea id="treatment_plan" name="treatment_plan" required></textarea>
+        <label for="billing">Billing:</label>
+        <input type="number" id="billing" name="billing" required>
+        <button type="submit">Submit</button>
+    </form>
 
-            <h2>Treatment</h2>
-            <div class="form-group">
-                <label for="treatment_plan">Treatment Plan:</label>
-                <textarea id="treatment_plan" name="treatment_plan" required></textarea>
-            </div>
+    <h2>Uploaded Files</h2>
+    <h3>Radiology Images</h3>
+    <?php while ($row = $radiology_images->fetch_assoc()): ?>
+        <img src="<?php echo htmlspecialchars($row['file_path']); ?>" alt="Radiology Image" style="width:200px;"><br>
+    <?php endwhile; ?>
 
-            <h2>File Uploads</h2>
-            <div class="form-group">
-                <label for="lab_tests">Upload Lab Tests:</label>
-                <input type="file" id="lab_tests" name="lab_tests[]" multiple>
-            </div>
-            <div class="form-group">
-                <label for="radiology_images">Upload Radiology Images:</label>
-                <input type="file" id="radiology_images" name="radiology_images[]" multiple>
-            </div>
-
-            <!-- Pass patient data as hidden inputs -->
-            <input type="hidden" name="patient_name" value="<?php echo $patient_name; ?>">
-            <input type="hidden" name="age" value="<?php echo $age; ?>">
-            <input type="hidden" name="gender" value="<?php echo $gender; ?>">
-            <input type="hidden" name="date_of_birth" value="<?php echo $date_of_birth; ?>">
-            <input type="hidden" name="immunization" value="<?php echo htmlspecialchars($_POST['immunization']); ?>">
-            <input type="hidden" name="allergies" value="<?php echo htmlspecialchars($_POST['allergies']); ?>">
-            <button type="submit">Submit Diagnosis & Treatment</button>
-        </form>
-    </div>
+    <h3>Lab Results</h3>
+    <?php while ($row = $lab_results->fetch_assoc()): ?>
+        <a href="<?php echo htmlspecialchars($row['file_path']); ?>" target="_blank">View Lab Result</a><br>
+    <?php endwhile; ?>
 </body>
 </html>
